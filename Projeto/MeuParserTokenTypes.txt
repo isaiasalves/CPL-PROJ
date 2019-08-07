@@ -1,0 +1,30 @@
+// $ANTLR 2.7.6 (2005-12-22): gramatica.g -> MeuParserTokenTypes.txt$
+MeuParser    // output token vocab name
+LITERAL_programa="programa"=4
+LITERAL_declare="declare"=5
+LITERAL_String="String"=6
+LITERAL_int="int"=7
+T_Id=8
+T_virg=9
+T_pontof=10
+LITERAL_fimprog="fimprog"=11
+LITERAL_leia="leia"=12
+T_ap=13
+T_fp=14
+LITERAL_escreva="escreva"=15
+T_texto=16
+T_attr=17
+LITERAL_se="se"=18
+T_Oprel=19
+LITERAL_entao="entao"=20
+T_ac=21
+T_fc=22
+LITERAL_senao="senao"=23
+LITERAL_enquanto="enquanto"=24
+LITERAL_faca="faca"=25
+T_soma=26
+T_subt=27
+T_mult=28
+T_divi=29
+T_num=30
+T_blank=31
