@@ -1,16 +1,36 @@
 class MeuParser extends Parser;
 {
 	java.util.HashMap<String, String> mapaVar;
-
+	java.util.HashMap<String, String> mapaTipoVar;
+	Programa p;
+	
+	public void setPrograma(String name){
+      p = new Programa(name);
+    }
+	
+	public Programa getPrograma(){
+       return p;
+    }
 }
 
-prog 	: {mapaVar = new java.util.HashMap<String, String>();}
+prog 	: { mapaVar = new java.util.HashMap<String, String>();
+			mapaTipoVar = new java.util.HashMap<String, String>();
+		  
+		  }
 		  "programa" declara bloco 
 		;
 		
-declara	: "declare"  ("String" | "int") T_Id  {mapaVar.put(LT(0).getText(), LT(0).getText());}
-			 (T_virg ("String" | "int") T_Id  {mapaVar.put(LT(0).getText(), LT(0).getText());})* 
-			 T_pontof  
+declara	: "declare" ("String" | "int")   
+			  	T_Id  {mapaVar.put(LT(0).getText(), LT(-1).getText()+" "+LT(0).getText());}
+			  	(
+				T_virg ("String" | "int") 
+				T_Id  {mapaVar.put(LT(0).getText(), LT(-1).getText()+" "+LT(0).getText());}
+			  )* 
+			 T_pontof 
+			{
+		      p.setVariaveis(mapaVar.values());
+			  System.out.println("Variable list assembled...");
+		    }
 		;
 
 bloco 	: (cmd)+ "fimprog"
@@ -26,9 +46,11 @@ cmd		: cmdLeia 		T_pontof
 
 
 cmdLeia : "leia" T_ap 
-			     T_Id { if (mapaVar.get(LT(0).getText()) == null){
-						throw new RuntimeException("ERROR ID "+LT(0).getText()+" não declarado!");
+			     T_Id { 
+						if (mapaVar.get(LT(0).getText()) == null){
+							throw new RuntimeException("ERROR ID "+LT(0).getText()+" não declarado!");
 						}
+						p.addCommand(new CmdLeitura(LT(0).getText()));
 				  	  }
 			T_fp    
 		;
@@ -36,14 +58,18 @@ cmdLeia : "leia" T_ap
 cmdEscr : "escreva" T_ap ( 
 							T_texto 
 							| 
-							T_Id { if (mapaVar.get(LT(0).getText()) == null){
-								throw new RuntimeException("ERROR ID "+LT(0).getText()+" não declarado!");
+							T_Id { 
+									if (mapaVar.get(LT(0).getText()) == null){
+									throw new RuntimeException("ERROR ID "+LT(0).getText()+" não declarado!");
 								}
 				  	  		}
-			) T_fp  
+			) 	{ p.addCommand(new CmdEscrita(LT(0).getText())); }
+			
+			T_fp  
 		;
 
-cmdAttr : T_Id 	{ if (mapaVar.get(LT(0).getText()) == null){
+cmdAttr : T_Id 	{ 
+					if (mapaVar.get(LT(0).getText()) == null){
 					   throw new RuntimeException("ERROR ID "+LT(0).getText()+" não declarado!");
 					}
 				}
@@ -51,8 +77,9 @@ cmdAttr : T_Id 	{ if (mapaVar.get(LT(0).getText()) == null){
 		  expr 
 		;
 
-cmdIf 	: "se" T_ap	expr T_Oprel expr T_fp "entao" T_ac	(cmd)* T_fc 
+cmdIf 	: "se" T_ap	expr  T_Oprel expr T_fp "entao" T_ac	(cmd)* T_fc 
 		 ("senao" T_ac (cmd) T_fc )* 
+
 		;
 
 cmdWhile: "enquanto" T_ap expr T_Oprel expr T_fp T_ac (cmd)* T_fc 
@@ -68,7 +95,8 @@ termo 	: fator (( T_mult | T_divi ) fator)*
 		;
 
 fator   : T_Id 
-		  { if (mapaVar.get(LT(0).getText()) == null){
+		  { 
+				if (mapaVar.get(LT(0).getText()) == null){
 						throw new RuntimeException("ERROR ID "+LT(0).getText()+" não declarado!");
 					}
 				}
@@ -89,9 +117,12 @@ options{
 T_Id 		: ('a'..'z' | 'A'..'Z') ('a'..'z' | 'A'..'Z' | '0'..'9' )*
 			;
 	
+T_comment   : "//"
+			;
+		 
 T_virg		: ','
 			;
-
+			
 T_Oprel		:("==" | '<' | '>' | "<=" | ">= " | "!=" )
 			;
 

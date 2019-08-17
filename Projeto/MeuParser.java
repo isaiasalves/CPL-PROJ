@@ -18,7 +18,16 @@ public class MeuParser extends antlr.LLkParser       implements MeuParserTokenTy
  {
 
 	java.util.HashMap<String, String> mapaVar;
-
+	java.util.HashMap<String, String> mapaTipoVar;
+	Programa p;
+	
+	public void setPrograma(String name){
+      p = new Programa(name);
+    }
+	
+	public Programa getPrograma(){
+       return p;
+    }
 
 protected MeuParser(TokenBuffer tokenBuf, int k) {
   super(tokenBuf,k);
@@ -48,6 +57,9 @@ public MeuParser(ParserSharedInputState state) {
 		
 		try {      // for error handling
 			mapaVar = new java.util.HashMap<String, String>();
+						mapaTipoVar = new java.util.HashMap<String, String>();
+					  
+					
 			match(LITERAL_programa);
 			declara();
 			bloco();
@@ -82,7 +94,7 @@ public MeuParser(ParserSharedInputState state) {
 			}
 			}
 			match(T_Id);
-			mapaVar.put(LT(0).getText(), LT(0).getText());
+			mapaVar.put(LT(0).getText(), LT(-1).getText()+" "+LT(0).getText());
 			{
 			_loop6:
 			do {
@@ -107,7 +119,7 @@ public MeuParser(ParserSharedInputState state) {
 					}
 					}
 					match(T_Id);
-					mapaVar.put(LT(0).getText(), LT(0).getText());
+					mapaVar.put(LT(0).getText(), LT(-1).getText()+" "+LT(0).getText());
 				}
 				else {
 					break _loop6;
@@ -116,6 +128,10 @@ public MeuParser(ParserSharedInputState state) {
 			} while (true);
 			}
 			match(T_pontof);
+			
+					      p.setVariaveis(mapaVar.values());
+						  System.out.println("Variable list assembled...");
+					
 		}
 		catch (RecognitionException ex) {
 			reportError(ex);
@@ -207,9 +223,11 @@ public MeuParser(ParserSharedInputState state) {
 			match(LITERAL_leia);
 			match(T_ap);
 			match(T_Id);
-			if (mapaVar.get(LT(0).getText()) == null){
-									throw new RuntimeException("ERROR ID "+LT(0).getText()+" não declarado!");
+			
+									if (mapaVar.get(LT(0).getText()) == null){
+										throw new RuntimeException("ERROR ID "+LT(0).getText()+" não declarado!");
 									}
+									p.addCommand(new CmdLeitura(LT(0).getText()));
 							  	
 			match(T_fp);
 		}
@@ -235,8 +253,9 @@ public MeuParser(ParserSharedInputState state) {
 			case T_Id:
 			{
 				match(T_Id);
-				if (mapaVar.get(LT(0).getText()) == null){
-												throw new RuntimeException("ERROR ID "+LT(0).getText()+" não declarado!");
+				
+													if (mapaVar.get(LT(0).getText()) == null){
+													throw new RuntimeException("ERROR ID "+LT(0).getText()+" não declarado!");
 												}
 								  	  		
 				break;
@@ -247,6 +266,7 @@ public MeuParser(ParserSharedInputState state) {
 			}
 			}
 			}
+			p.addCommand(new CmdEscrita(LT(0).getText()));
 			match(T_fp);
 		}
 		catch (RecognitionException ex) {
@@ -260,7 +280,8 @@ public MeuParser(ParserSharedInputState state) {
 		
 		try {      // for error handling
 			match(T_Id);
-			if (mapaVar.get(LT(0).getText()) == null){
+			
+								if (mapaVar.get(LT(0).getText()) == null){
 								   throw new RuntimeException("ERROR ID "+LT(0).getText()+" não declarado!");
 								}
 							
@@ -280,6 +301,7 @@ public MeuParser(ParserSharedInputState state) {
 			match(LITERAL_se);
 			match(T_ap);
 			expr();
+			p.addCommand(new CmdIf(LT(0).getText()));
 			match(T_Oprel);
 			expr();
 			match(T_fp);
@@ -468,7 +490,8 @@ public MeuParser(ParserSharedInputState state) {
 			case T_Id:
 			{
 				match(T_Id);
-				if (mapaVar.get(LT(0).getText()) == null){
+				
+								if (mapaVar.get(LT(0).getText()) == null){
 										throw new RuntimeException("ERROR ID "+LT(0).getText()+" não declarado!");
 									}
 								
@@ -531,6 +554,7 @@ public MeuParser(ParserSharedInputState state) {
 		"T_mult",
 		"T_divi",
 		"T_num",
+		"T_comment",
 		"T_blank"
 	};
 	

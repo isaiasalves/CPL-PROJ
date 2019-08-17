@@ -27,4 +27,5 @@ T_subt=27
 T_mult=28
 T_divi=29
 T_num=30
-T_blank=31
+T_comment=31
+T_blank=32

@@ -1,5 +1,5 @@
 programa
-declare	int a, String b, String c.
+declare	int a, String b, String c, int x.
 	escreva("Meu primeiro prog em Comp").
 	leia( a ).
 	leia( b ).

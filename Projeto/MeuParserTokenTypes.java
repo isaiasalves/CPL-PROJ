@@ -30,5 +30,6 @@ public interface MeuParserTokenTypes {
 	int T_mult = 28;
 	int T_divi = 29;
 	int T_num = 30;
-	int T_blank = 31;
+	int T_comment = 31;
+	int T_blank = 32;
 }
