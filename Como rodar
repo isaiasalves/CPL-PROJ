@@ -1,8 +1,8 @@
 1º Compilar a gramática:
-java -cp antlr.jar antlr.Tool gramaticaEXPR.g
+java -cp antlr.jar antlr.Tool gramatica.g
 
 2° Compilar tudo:
 javac -cp antlr.jar *.java
 
 3° Rodar com o arquivo como entrada:
-java -cp .:antlr.jar Comp < prog.vich
+java -cp .:antlr.jar Compilador ProgramaGerado < prog.vich
