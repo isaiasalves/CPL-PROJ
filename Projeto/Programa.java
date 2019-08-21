@@ -30,6 +30,7 @@ public class Programa{
 		comandos.add(c);
 	}
 
+
     public void saveToFile(){
 		try{
 			FileWriter f = new FileWriter(new File(name+".java"));

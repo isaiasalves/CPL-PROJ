@@ -77,15 +77,18 @@ cmdAttr : T_Id 	{
 		  expr 
 		;
 
-cmdIf 	: "se" T_ap	expr  T_Oprel expr T_fp "entao" T_ac	(cmd)* T_fc 
-		 ("senao" T_ac (cmd) T_fc )* 
-
+cmdIf 	:  "se"     T_ap	 expr  T_Oprel 	{p.addCommand(new CmdIf(LT(-1).getText()+" "+LT(0).getText()+" "+LT(1).getText())); } expr T_fp  
+		   "entao"  T_ac	 {p.addCommand(new CmdAC(""));} (cmd)* {p.addCommand(new CmdFC(""));} 	    T_fc       
+		  ("senao"  T_ac     {p.addCommand(new CmdElse(""));} {p.addCommand(new CmdAC(""));} (cmd)  {p.addCommand(new CmdFC(""));}   T_fc )* 
+		
 		;
 
-cmdWhile: "enquanto" T_ap expr T_Oprel expr T_fp T_ac (cmd)* T_fc 
+cmdWhile: "enquanto" T_ap expr T_Oprel {p.addCommand(new CmdWhile(LT(-1).getText()+" "+LT(0).getText()+" "+LT(1).getText())); } expr T_fp
+		   T_ac  {p.addCommand(new CmdAC(""));} (cmd)* {p.addCommand(new CmdFC(""));} T_fc 
 		;
 
-cmdDoWhile: "faca" T_ac (cmd) T_fc "enquanto" T_ap expr T_Oprel expr T_fp 
+cmdDoWhile: "faca" {p.addCommand(new CmdDo(""));} T_ac {p.addCommand(new CmdAC(""));} (cmd) {p.addCommand(new CmdFC(""));} T_fc 
+			"enquanto" T_ap expr T_Oprel {p.addCommand(new CmdDoWhile(LT(-1).getText()+" "+LT(0).getText()+" "+LT(1).getText())); } expr T_fp
 		;		
 
 expr    : termo (( T_soma | T_subt ) termo)*

@@ -301,12 +301,13 @@ public MeuParser(ParserSharedInputState state) {
 			match(LITERAL_se);
 			match(T_ap);
 			expr();
-			p.addCommand(new CmdIf(LT(0).getText()));
 			match(T_Oprel);
+			p.addCommand(new CmdIf(LT(-1).getText()+" "+LT(0).getText()+" "+LT(1).getText()));
 			expr();
 			match(T_fp);
 			match(LITERAL_entao);
 			match(T_ac);
+			p.addCommand(new CmdAC(""));
 			{
 			_loop17:
 			do {
@@ -319,6 +320,7 @@ public MeuParser(ParserSharedInputState state) {
 				
 			} while (true);
 			}
+			p.addCommand(new CmdFC(""));
 			match(T_fc);
 			{
 			_loop20:
@@ -326,9 +328,12 @@ public MeuParser(ParserSharedInputState state) {
 				if ((LA(1)==LITERAL_senao)) {
 					match(LITERAL_senao);
 					match(T_ac);
+					p.addCommand(new CmdElse(""));
+					p.addCommand(new CmdAC(""));
 					{
 					cmd();
 					}
+					p.addCommand(new CmdFC(""));
 					match(T_fc);
 				}
 				else {
@@ -352,9 +357,11 @@ public MeuParser(ParserSharedInputState state) {
 			match(T_ap);
 			expr();
 			match(T_Oprel);
+			p.addCommand(new CmdWhile(LT(-1).getText()+" "+LT(0).getText()+" "+LT(1).getText()));
 			expr();
 			match(T_fp);
 			match(T_ac);
+			p.addCommand(new CmdAC(""));
 			{
 			_loop23:
 			do {
@@ -367,6 +374,7 @@ public MeuParser(ParserSharedInputState state) {
 				
 			} while (true);
 			}
+			p.addCommand(new CmdFC(""));
 			match(T_fc);
 		}
 		catch (RecognitionException ex) {
@@ -380,15 +388,19 @@ public MeuParser(ParserSharedInputState state) {
 		
 		try {      // for error handling
 			match(LITERAL_faca);
+			p.addCommand(new CmdDo(""));
 			match(T_ac);
+			p.addCommand(new CmdAC(""));
 			{
 			cmd();
 			}
+			p.addCommand(new CmdFC(""));
 			match(T_fc);
 			match(LITERAL_enquanto);
 			match(T_ap);
 			expr();
 			match(T_Oprel);
+			p.addCommand(new CmdDoWhile(LT(-1).getText()+" "+LT(0).getText()+" "+LT(1).getText()));
 			expr();
 			match(T_fp);
 		}
