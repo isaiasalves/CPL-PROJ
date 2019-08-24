@@ -1,0 +1,15 @@
+programa
+declare int a, int i.
+	escreva("Insira um numero para calcular seu fatorial").
+	leia ( a ).
+	i = a.
+	enquanto ( i > 0 )
+	leia ( b ).
+	c := ( a + b ) / 2.
+	escreva("Media: ").
+	escreva ( c ).
+	se ( c > 5 ) entao {
+		escreva("Aluno aprovado").
+	} senao {
+		escreva("Aluno Reprovado").
+fimprograma

@@ -8,7 +8,7 @@ public class CmdDo extends Command{
 
 	 
 	public String toJava(){
-		return "Do";
+		return "do";
 		 
 	}	
 }

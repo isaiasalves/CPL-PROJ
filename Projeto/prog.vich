@@ -1,15 +1,14 @@
 programa
-declare	int a, String b, String c, int x.
+declare	int a, int b, String x .
 	escreva("Meu primeiro prog em Comp").
 	leia( a ).
 	leia( b ).
-	c:= a + 4.5.
 	se (a == b) entao {
 		escreva("O resultado da soma vale").
 	} senao {
 		escreva("O resultado da soma NAO vale").
 	}
-	escreva( c ).
+
 	enquanto (a<b){
 		a := a + b.
 	}

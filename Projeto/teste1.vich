@@ -1,0 +1,10 @@
+programa
+declare int a, int b, int c.
+	escreva("Insira a nota 1").
+	leia ( a ).
+	escreva("Insira a nota 2").
+	leia ( b ).
+	c := ( a + b ) / 2.
+	escreva("Media: ").
+	escreva ( c ).
+fimprograma

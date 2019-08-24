@@ -68,13 +68,15 @@ cmdEscr : "escreva" T_ap (
 			T_fp  
 		;
 
-cmdAttr : T_Id 	{ 
+cmdAttr : T_Id 	{
+		
 					if (mapaVar.get(LT(0).getText()) == null){
 					   throw new RuntimeException("ERROR ID "+LT(0).getText()+" não declarado!");
 					}
-				}
-		  T_attr 
-		  expr 
+}	
+
+		  T_attr expr
+
 		;
 
 cmdIf 	:  "se"     T_ap	 expr  T_Oprel 	{p.addCommand(new CmdIf(LT(-1).getText()+" "+LT(0).getText()+" "+LT(1).getText())); } expr T_fp  

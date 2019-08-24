@@ -44,7 +44,7 @@ public class Programa{
 			for(Command c: comandos){
 				f.write(c.toJava()+"\n");
 			}
-			f.write("}");
+			f.write("}\n");
 			f.write("}");
 			f.close();
 		}

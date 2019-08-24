@@ -281,10 +281,11 @@ public MeuParser(ParserSharedInputState state) {
 		try {      // for error handling
 			match(T_Id);
 			
+					
 								if (mapaVar.get(LT(0).getText()) == null){
 								   throw new RuntimeException("ERROR ID "+LT(0).getText()+" não declarado!");
 								}
-							
+			
 			match(T_attr);
 			expr();
 		}
